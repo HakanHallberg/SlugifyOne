@@ -10,5 +10,7 @@ namespace SlugifyWeb.Models
         public int PostID { get; set; }
         public string Title { get; set; }
         public bool ExplicitLanguage { get; set; }
+        public int BloggID { get; set; }
+        public Blogg Blogg { get; set; }
     }
 }

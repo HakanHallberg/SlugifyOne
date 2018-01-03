@@ -22,6 +22,7 @@ namespace SlugifyWeb.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        public DbSet<Blogg> Bloggs { get; set; }
         public DbSet<Post> Posts { get; set; }
     }
 }

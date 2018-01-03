@@ -5,71 +5,67 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using SlugifyWeb.Data;
 using SlugifyWeb.Models;
 
 namespace SlugifyWeb.Controllers
 {
-    public class PostsController : Controller
+    public class BloggsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<PostsController> _logger;
 
-        public PostsController(ApplicationDbContext context, ILogger<PostsController>logger)
+        public BloggsController(ApplicationDbContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
-        // GET: Posts
+        // GET: Bloggs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Posts.ToListAsync());
+            return View(await _context.Bloggs.ToListAsync());
         }
 
-        // GET: Posts/Details/5
+        // GET: Bloggs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {    
-                return NotFound();
-            }
-
-            var post = await _context.Posts
-                .SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
             {
-                _logger.LogWarning("Could not find with id =" + id.ToString());
                 return NotFound();
             }
 
-            return View(post);
+            var blogg = await _context.Bloggs
+                .SingleOrDefaultAsync(m => m.BloggID == id);
+            if (blogg == null)
+            {
+                return NotFound();
+            }
+
+            return View(blogg);
         }
 
-        // GET: Posts/Create
+        // GET: Bloggs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Posts/Create
+        // POST: Bloggs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,Title,ExplicitLanguage")] Post post)
+        public async Task<IActionResult> Create([Bind("BloggID,Title")] Blogg blogg)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(post);
+                _context.Add(blogg);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(post);
+            return View(blogg);
         }
 
-        // GET: Posts/Edit/5
+        // GET: Bloggs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,22 +73,22 @@ namespace SlugifyWeb.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts.SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
+            var blogg = await _context.Bloggs.SingleOrDefaultAsync(m => m.BloggID == id);
+            if (blogg == null)
             {
                 return NotFound();
             }
-            return View(post);
+            return View(blogg);
         }
 
-        // POST: Posts/Edit/5
+        // POST: Bloggs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,Title,ExplicitLanguage")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("BloggID,Title")] Blogg blogg)
         {
-            if (id != post.PostID)
+            if (id != blogg.BloggID)
             {
                 return NotFound();
             }
@@ -101,12 +97,12 @@ namespace SlugifyWeb.Controllers
             {
                 try
                 {
-                    _context.Update(post);
+                    _context.Update(blogg);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PostExists(post.PostID))
+                    if (!BloggExists(blogg.BloggID))
                     {
                         return NotFound();
                     }
@@ -117,10 +113,10 @@ namespace SlugifyWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(post);
+            return View(blogg);
         }
 
-        // GET: Posts/Delete/5
+        // GET: Bloggs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,30 +124,30 @@ namespace SlugifyWeb.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts
-                .SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
+            var blogg = await _context.Bloggs
+                .SingleOrDefaultAsync(m => m.BloggID == id);
+            if (blogg == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(blogg);
         }
 
-        // POST: Posts/Delete/5
+        // POST: Bloggs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var post = await _context.Posts.SingleOrDefaultAsync(m => m.PostID == id);
-            _context.Posts.Remove(post);
+            var blogg = await _context.Bloggs.SingleOrDefaultAsync(m => m.BloggID == id);
+            _context.Bloggs.Remove(blogg);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PostExists(int id)
+        private bool BloggExists(int id)
         {
-            return _context.Posts.Any(e => e.PostID == id);
+            return _context.Bloggs.Any(e => e.BloggID == id);
         }
     }
 }
