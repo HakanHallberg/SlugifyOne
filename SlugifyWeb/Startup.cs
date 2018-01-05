@@ -62,7 +62,7 @@ namespace SlugifyWeb
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Posts}/{action=Index}/{id?}/{slug?}");
+                    template: "{controller=Bloggs}/{action=Index}/{id?}/{slug?}");
             });
 
             DbSeeder.Seed(context);

@@ -26,8 +26,10 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.BloggID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BloggID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BloggID">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.BloggID" asp-route-slug="@SlugifyWeb.Utils.Slug.Slugify(item.Title)">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BloggID">Delete</a> |
+                <a asp-controller="Posts" asp-action="IndexByBlogg" asp-route-id="@item.BloggID">Posts</a> |
+                <a asp-controller="Posts" asp-action="CreateByBlogg" asp-route-id="@item.BloggID">Create post</a> |
             </td>
         </tr>
 }
